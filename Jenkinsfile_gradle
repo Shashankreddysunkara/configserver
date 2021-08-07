@@ -1,0 +1,52 @@
+pipeline {
+	environment {
+		GRADLE_TOOL = 'Gradle-4.6'								// setup in jenkins tools config
+	}
+   
+    agent any
+
+    stages {
+        stage ('Artifactory configuration') {
+            steps {						
+                rtServer (
+                    id: "ARTIFACTORY_SERVER",
+                    url: ARTIFACTORY_SERVER_URL,				// resolved from env variable
+                    credentialsId: ARTIFACTORY_CREDENTIALS_ID	// resolved from env variable
+                )
+
+                rtGradleDeployer (
+                    id: "GRADLE_DEPLOYER",
+                    serverId: "ARTIFACTORY_SERVER",
+					repo: "gradle-dev"
+                )
+
+                rtGradleResolver (
+                    id: "GRADLE_RESOLVER",
+                    serverId: "ARTIFACTORY_SERVER",
+                    repo: "resolver-repo"
+                )
+            }
+        }
+		
+		stage ('Build Gradle and Deploy') {
+            steps {
+                rtGradleRun (
+                    tool: GRADLE_TOOL,
+                    rootDir: "./",
+                    buildFile: 'build.gradle',
+                    tasks: 'clean artifactoryPublish',
+                    deployerId: "GRADLE_DEPLOYER",
+                    resolverId: "GRADLE_RESOLVER"
+                )
+            }
+        }
+
+        stage ('Publish build info') {
+            steps {
+                rtPublishBuildInfo (
+                    serverId: "ARTIFACTORY_SERVER"
+                )
+            }
+        }
+    }
+}
