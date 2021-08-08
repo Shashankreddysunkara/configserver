@@ -1,0 +1,22 @@
+management.security.enabled: false
+server.port: 8080
+logging.file: configserver.log
+spring.application.name: ConfigServer
+spring.profiles.active: default
+spring.cloud.config.server:
+  git:
+    uri: https://github.com/ggnanasekaran77/{application}.git
+    ignoreLocalSshSettings: true
+    strictHostKeyChecking: false
+    force-pull: true
+    searchPaths: conf
+    timeout: 180
+management:
+  endpoints:
+    web.exposure.include: '*'
+  endpoint:
+    restart:
+      enabled: true
+    shutdown:
+      enabled: true
+    health.show-details: always
