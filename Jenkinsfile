@@ -20,9 +20,10 @@ pipeline {
         stage('Docker') {
             steps {
                 script {
-                    def customImage = docker.build("ggnanasekaran77/configserver:${env.GIT_COMMIT}")
-                    customImage.push()
-
+                    docker.withRegistry('', 'docker-hub-token') {
+                        def customImage = docker.build("ggnanasekaran77/configserver:${env.GIT_COMMIT}")
+                        customImage.push()
+                    }
                 }
             }
         }
@@ -38,7 +39,9 @@ pipeline {
                 }
             }
         }
+
     }
+
     post {
         always {
             cleanWs()
@@ -53,4 +56,5 @@ pipeline {
             }
         }
     }
+    
 }
