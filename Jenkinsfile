@@ -13,7 +13,7 @@ pipeline {
                 sh "./gradlew clean build"
             }
         }
-
+    }
     post {
         always {
 
