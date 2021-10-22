@@ -36,6 +36,7 @@ pipeline {
                         git config --global user.name 'Gnanasekaran Gajendiran'
                         git config --global user.email 'ggnanasekaran77@gmail.com'
                         sed -i "s#ggnanasekaran77/configserver:.*#ggnanasekaran77/configserver:${GIT_COMMIT}#" kube/deployment.yaml
+                        cat kube/deployment.yaml
                         git commit -am 'Publish new version' && git push || echo 'no changes'
                     """
                 }
