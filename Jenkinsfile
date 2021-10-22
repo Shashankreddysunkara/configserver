@@ -32,10 +32,12 @@ pipeline {
             steps {
                 sh "git clone https://$GITHUB_USR:$GITHUB_PSW@github.com/ggnanasekaran77/kube-demoapp.git"
                 dir ("kube-demoapp") {
-                    sh "git config --global user.name 'Gnanasekaran Gajendiran'"
-                    sh "git config --global user.email 'ggnanasekaran77@gmail.com'"
-                    sh "sed -i 's/replicas: 1/replicas: 2/g' kube/deployment.yaml"
-                    sh "git commit -am 'Publish new version' && git push || echo 'no changes'"
+                    sh """
+                        git config --global user.name 'Gnanasekaran Gajendiran'
+                        git config --global user.email 'ggnanasekaran77@gmail.com'
+                        sed -i "s#ggnanasekaran77/configserver:.*#ggnanasekaran77/configserver:${GIT_COMMIT}#" kube/deployment.yaml
+                        git commit -am 'Publish new version' && git push || echo 'no changes'
+                    """
                 }
             }
         }
@@ -56,5 +58,5 @@ pipeline {
             }
         }
     }
-    
+
 }
