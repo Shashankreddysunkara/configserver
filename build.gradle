@@ -2,7 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.4.9'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-        id 'maven-publish'
+	id 'maven-publish'
+	id "org.sonarqube" version "3.3"
 }
 
 group = 'com.example'
@@ -46,6 +47,14 @@ publishing {
 			from components.java
 			artifact source: jar
 		}
+	}
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "ggnanasekaran77_configserver"
+		property "sonar.organization", "ggnanasekaran77"
+		property "sonar.host.url", "https://sonarcloud.io"
 	}
 }
 
