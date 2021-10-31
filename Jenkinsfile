@@ -38,7 +38,7 @@ pipeline {
   }
   environment {
     GITHUB = credentials('github-http-user-token')
-    SONAR_TOKEN = "8247b583e2ae3bfa87fe9abe863f88f8e8415909" 
+    SONAR_TOKEN = credentials('sonarcloud-token')
   }
   stages {
     stage('Git Checkout') {
