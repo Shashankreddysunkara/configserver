@@ -38,6 +38,7 @@ pipeline {
   }
   environment {
     GITHUB = credentials('github-http-user-token')
+    SONAR_TOKEN = credentials('sonarcloud-token') 
   }
   stages {
     stage('Git Checkout') {
@@ -49,7 +50,7 @@ pipeline {
     stage('App Build') {
       steps {
         sh 'mkdir -p /tmp/cache'  
-        sh 'gradle clean build -g /tmp/cache -x test'
+        sh 'gradle clean build -g /tmp/cache jacocoTestReport sonarqube'
       }
     }
 
