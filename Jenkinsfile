@@ -15,11 +15,6 @@ pipeline {
             command:
             - cat
             tty: true
-            resources:
-              limits: {}
-              requests:
-                memory: "1024Mi"
-                cpu: "1000m"
             volumeMounts:
             - name: build-cache
               mountPath: /tmp
