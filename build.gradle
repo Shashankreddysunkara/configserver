@@ -42,6 +42,7 @@ publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			from components.java
+			artifact source: jar
 		}
 	}
 }
