@@ -11,10 +11,17 @@ pipeline {
         spec:
           containers:
           - name: gradle
-            image: gradle:6.9.1-jdk11
+            image: gradle:7.2.0-jdk11
             command:
             - cat
             tty: true
+            resources:
+              limits:
+                cpu: 2
+                memory: 4Gi
+              requests:
+                cpu: 2
+                memory: 4Gi
             volumeMounts:
             - name: build-cache
               mountPath: /tmp
@@ -43,7 +50,7 @@ pipeline {
   stages {
     stage('Git Checkout') {
       steps {
-        git url: 'https://github.com/ggnanasekaran77/configserver.git', branch: 'main'
+        git url: 'https://github.com/ggnanasekaran77/configserver.git', branch: 'develop'
       }      
     }
 
@@ -81,6 +88,22 @@ pipeline {
         }
       }
     }
-
+  }
+  post {
+    always {
+      script {
+        publishToElastic("multibranchPipeline", "argocd", "configserver", "configserver", "stg")
+      }
+      cleanWs()
+      dir("${env.WORKSPACE}@tmp") {
+        deleteDir()
+      }
+      dir("${env.WORKSPACE}@script") {
+        deleteDir()
+      }
+      dir("${env.WORKSPACE}@script@tmp") {
+        deleteDir()
+      }
+    }
   }
 }
