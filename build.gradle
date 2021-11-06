@@ -19,6 +19,10 @@ ext {
 	set('springCloudVersion', "2020.0.3")
 }
 
+jar {
+    enabled = false
+}
+
 tasks.withType(GenerateModuleMetadata) {
     enabled = false
 }
