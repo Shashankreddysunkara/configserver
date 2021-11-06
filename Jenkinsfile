@@ -57,7 +57,7 @@ pipeline {
     stage('App Build') {
       steps {
         sh 'mkdir -p /tmp/cache'  
-        sh "gradle clean build -g /tmp/cache"
+        sh "gradle clean build -g /tmp/cache jacocoTestReport sonarqube -Dsonar.branch.name=${env.GIT_BRANCH}"
       }
     }
 
