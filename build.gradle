@@ -37,6 +37,7 @@ dependencyManagement {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
+			version = '0.0.1-SNAPSHOT'
 			from components.java
 			artifact source: jar
 		}
