@@ -37,8 +37,8 @@ dependencyManagement {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			artifactId = 'configserver'
 			from components.java
+			artifact sourceJar
 			versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
