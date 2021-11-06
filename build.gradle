@@ -38,7 +38,6 @@ publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			from components.java
-			artifact sourceJar
 			versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
