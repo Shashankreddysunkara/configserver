@@ -88,6 +88,22 @@ pipeline {
         }
       }
     }
-
+  }
+  post {
+    always {
+      script {
+        publishToElastic("multibranchPipeline", "argocd", "configserver", "configserver", "stg")
+      }
+      cleanWs()
+      dir("${env.WORKSPACE}@tmp") {
+        deleteDir()
+      }
+      dir("${env.WORKSPACE}@script") {
+        deleteDir()
+      }
+      dir("${env.WORKSPACE}@script@tmp") {
+        deleteDir()
+      }
+    }
   }
 }
