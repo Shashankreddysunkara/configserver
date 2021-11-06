@@ -37,6 +37,14 @@ dependencyManagement {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
+			versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+			}
 			version = '0.0.1-SNAPSHOT'
 			from components.java
 			artifact source: jar
